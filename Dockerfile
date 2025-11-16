@@ -1,20 +1,19 @@
-# Используем официальный Python 3.12 образ
+# Используем Python 3.12 slim
 FROM python:3.12-slim
 
 # Устанавливаем рабочую директорию
 WORKDIR /app
 
-# Копируем все файлы проекта
+# Копируем файлы
 COPY . /app
 
 # Обновляем pip и устанавливаем зависимости
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Экспортируем переменные окружения, если нужно
-# ENV OWNER_ID=8017932922
-# ENV BOT_TOKEN=ваш_токен
+# Экспортируем порт
+EXPOSE 8000
 
-# Запускаем бота
-CMD ["python", "bot.py"]
+# Команда запуска (uvicorn для FastAPI + Aiogram)
+CMD ["uvicorn", "bot:app", "--host", "0.0.0.0", "--port", "8000"]
 
