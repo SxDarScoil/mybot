@@ -1,7 +1,9 @@
 import os
 import json
 from aiogram import Bot, Dispatcher, F
-from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, ChatMemberStatus
+from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.enums.chat_member_status import ChatMemberStatus
+
 from fastapi import FastAPI, Request
 import asyncio
 
