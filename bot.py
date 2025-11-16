@@ -7,8 +7,9 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 import os
 
-API_TOKEN = os.getenv("8052669939:AAEz5BodFrf9Nk5wWEFRz7-8lF4N4koYRgg")
-OWNER_ID = int(os.getenv("8017932922"))
+API_TOKEN = os.getenv("API_TOKEN")
+OWNER_ID = int(os.getenv("OWNER_ID"))
+
 
 FILE_PATH = Path("movies.json")
 REQUIRED_CHANNELS = ["animesxda"]  # список каналов для подписки
