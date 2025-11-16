@@ -1,22 +1,20 @@
-# Используем официальный образ Python 3.11
-FROM python:3.11-slim
+# Используем официальный Python 3.12 образ
+FROM python:3.12-slim
 
 # Устанавливаем рабочую директорию
 WORKDIR /app
 
 # Копируем все файлы проекта
-COPY . .
+COPY . /app
 
 # Обновляем pip и устанавливаем зависимости
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Делаем скрипт запуска исполняемым
-RUN chmod +x start.sh
-
-# Устанавливаем переменные окружения (при необходимости)
-# ENV OWNER_ID=ваш_owner_id
+# Экспортируем переменные окружения, если нужно
+# ENV OWNER_ID=8017932922
 # ENV BOT_TOKEN=ваш_токен
 
-# Команда запуска
-CMD ["./start.sh"]
+# Запускаем бота
+CMD ["python", "bot.py"]
+
