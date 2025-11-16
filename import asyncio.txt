@@ -1,0 +1,77 @@
+import asyncio
+from aiogram import Bot, Dispatcher, types
+from aiogram.filters import Command
+
+API_TOKEN = "YOUR_TELEGRAM_BOT_TOKEN"  # <-- Вставь токен
+OWNER_ID = 123456789  # <-- Вставь свой Telegram ID
+
+bot = Bot(token=API_TOKEN)
+dp = Dispatcher()
+
+# Словарь кодов: "код": "название фильма"
+movies = {}
+
+
+# --- Команда добавления фильма владельцем ---
+@dp.message(Command("add"))
+async def add_movie(message: types.Message):
+    if message.from_user.id != OWNER_ID:
+        return await message.answer("⛔ У вас нет прав на эту команду.")
+
+    text = message.text.replace("/add", "").strip()
+
+    if "|" not in text:
+        return await message.answer(
+            "❗ Неверный формат.\nИспользование:\n"
+            "`/add <код> | <название>`"
+        )
+
+    code, title = [part.strip() for part in text.split("|", 1)]
+
+    if not code or not title:
+        return await message.answer("❗ Код и название не могут быть пустыми.")
+
+    code = code.upper()
+
+    movies[code] = title
+
+    await message.answer(
+        f"🎬 Фильм успешно добавлен!\n"
+        f"Код: `{code}`\nНазвание: *{title}*"
+    )
+
+
+# --- Вывод списка фильмов (только владельцу) ---
+@dp.message(Command("list"))
+async def list_movies(message: types.Message):
+    if message.from_user.id != OWNER_ID:
+        return await message.answer("⛔ У вас нет прав на эту команду.")
+
+    if not movies:
+        return await message.answer("Библиотека пуста.")
+
+    text = "📚 *Библиотека фильмов:*\n\n"
+    for code, title in movies.items():
+        text += f"`{code}` — {title}\n"
+
+    await message.answer(text)
+
+
+# --- Пользователь вводит код ---
+@dp.message()
+async def user_code(message: types.Message):
+    code = message.text.strip().upper()
+
+    if code in movies:
+        await message.answer(f"🎬 По коду `{code}` найден фильм:\n*{movies[code]}*")
+    else:
+        await message.answer("❌ Неверный код.")
+
+
+async def main():
+    print("Бот запущен...")
+    await dp.start_polling(bot)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
