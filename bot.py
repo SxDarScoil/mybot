@@ -5,8 +5,11 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-API_TOKEN = "8052669939:AAEz5BodFrf9Nk5wWEFRz7-8lF4N4koYRgg"
-OWNER_ID = 8017932922  # ваш Telegram ID
+import os
+
+API_TOKEN = os.getenv("8052669939:AAEz5BodFrf9Nk5wWEFRz7-8lF4N4koYRgg")
+OWNER_ID = int(os.getenv("8017932922"))
+
 FILE_PATH = Path("movies.json")
 REQUIRED_CHANNELS = ["animesxda"]  # список каналов для подписки
 
